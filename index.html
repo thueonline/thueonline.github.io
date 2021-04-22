@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thue Online</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="home_script.js"></script>
+</head>
+<body>
+
+<div id="header">
+  <span>THUE ONLINE</span>
+</div>
+<div id="left">
+  <div class="kafelek locked"><span>gracz vs gracz</span><img src="lock.png" alt="locked" width="15px"></div>
+  <div class="kafelek unlocked" onclick="display_settings()"><span>gracz vs komputer</span> </div>
+  <div class="kafelek locked"><span>komputer vs komputer & testy</span> <img src="lock.png" alt="locked" width="15px"></div>
+  <div class="kafelek unlocked" onclick="display_instruction()">Jak grać</div>
+  <div class="kafelek unlocked" onclick="display_authors()">Autorzy</div>
+</div>
+<div id="middle">
+  <div id="settings">
+    <div class="kafelek2">
+      <span style="margin-bottom: 30px">Długość słowa:</span>
+      <br/>
+      <div style="margin: auto; position: relative; padding: 30px">
+        <div class="left_arrow" onclick="decrease_word_len()"></div>
+        <div id="word_len" style="padding-top: 8px">15</div>
+        <div class="right_arrow" onclick="increase_word_len()"></div>
+      </div>
+    </div>
+    <div class="kafelek2">
+      <span style="margin-bottom: 30px">Alfabet:</span>
+      <br/>
+      <div style="margin: auto; position: relative; padding: 30px">
+        <div class="left_arrow" onclick="decrease_alphabet()"></div>
+        <div id="alphabet" style="padding-top: 8px">ABC</div>
+        <div class="right_arrow" onclick="increase_alphabet()"></div>
+      </div>
+    </div>
+    <div class="kafelek2">
+     <span style="margin-bottom: 30px">Poziom trudności:</span>
+      <br/>
+      <div style="margin: auto; position: relative; padding: 30px">
+        <div class="left_arrow" onclick="decrease_difficulty()"></div>
+        <div id="difficulty" style="padding-top: 8px">łatwy</div>
+        <div class="right_arrow" onclick="increase_difficulty()"></div>
+      </div>
+    </div>
+    <div class="kafelek2">
+      <input type="button" value="GRAJ" style="color: white; font-size: 20px; float: right" onclick="play()"/>
+    </div>
+  </div>
+</div>
+<div id="right"><img src="samurai.png" alt="s" width="540px"></div>
+<div id="instrukcja"><span>tu będzie instrukcja</span><div id="confirm1" onclick="hide_instruction()">OK!</div></div>
+<div id="autorzy"><span>tu będą autorzy</span><div id="confirm2" onclick="hide_authors()">OK!</div></div>
+</body>
+</html>
