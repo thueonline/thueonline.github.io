@@ -61,5 +61,5 @@ function display_settings(){
         chosen_alphabet = document.getElementById("alphabet").innerText
         chosen_difficulty =document.getElementById("difficulty").innerText
         alert("Game with " + chosen_len + chosen_alphabet + chosen_difficulty)
-        window.location = '/kombi/Thue_online/game.html?l=' + chosen_len + "";
+        window.location = 'game.html?l=' + chosen_len + "";
      }
