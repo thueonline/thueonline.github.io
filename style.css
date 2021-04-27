@@ -33,6 +33,7 @@ body{
   transition: 300ms;
 }
 #right{
+  margin: auto;
   background-color: #222222;
   width: 30%;
   height: 84vh;
@@ -145,4 +146,5 @@ body{
 
  body {
    background-color: #222222 ;
+   width: 100%;
  }

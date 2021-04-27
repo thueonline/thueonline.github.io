@@ -13,20 +13,146 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <script>
-function append(button){
-    $("#text").append(button.innerHTML);
-    alert(button.innerHTML)
-}
 
-function return_to_menu() {
+
+        var parameters = location.search.substring(1).split("&");
+        l = parseInt(parameters[0].substr(2));
+        a = parameters[1].substr(2);
+        d = parameters[2].substr(2);
+        console.log(a);
+
+        function start() {
+            let current_word = '__'
+            console.log(current_word);
+            current_word = setCharAt(current_word, 0, a[getRandomIntInclusive(0,2)]);
+            document.getElementById('text').innerHTML = current_word;
+            return
+        }
+
+
+        function setCharAt(str, index, chr) {
+            if (index > str.length - 1) return str;
+            return str.substring(0, index) + chr + str.substring(index + 1);
+        }
+
+        function getRandomIntInclusive(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+        }
+
+
+        function moveLeft() {
+            var word = $("#text");
+            current_word = word.text();
+            console.log(current_word);
+            index = current_word.search('_');
+            console.log(index);
+            if (index > 0) {
+                tmp = current_word[index - 1];
+                current_word = setCharAt(current_word, index - 1, '_');
+                current_word = setCharAt(current_word, index, tmp);
+                console.log(current_word);
+                document.getElementById('text').innerHTML = current_word;
+            }
+        }
+
+        function moveRight() {
+            var word = $("#text");
+            current_word = word.text();
+            console.log(current_word);
+            index = current_word.search('_');
+            console.log(index);
+            if (index < current_word.length - 1) {
+                tmp = current_word[index + 1];
+                current_word = setCharAt(current_word, index + 1, '_');
+                current_word = setCharAt(current_word, index, tmp);
+                console.log(current_word);
+                document.getElementById('text').innerHTML = current_word;
+            }
+        }
+
+
+        function computer_move() {
+            var word = $("#text");
+            current_word = word.text();
+            index = current_word.search('_');
+            current_word = setCharAt(current_word, index, a[getRandomIntInclusive(0,2)]);
+            document.getElementById('text').innerHTML = current_word;
+            result = find_repetition(current_word);
+            console.log(result);
+            if (String(result) != String([-1, -1])) {
+                setTimeout(() => {  alert("Wygrana!"); }, 100);
+            }
+
+            if (current_word.length == 15){
+                setTimeout(() => {  alert("Przegrana :("); }, 100);
+                alert('Wygrał komputer')
+            }
+
+            document.getElementById('text').innerHTML = current_word + '_';
+
+        }
+
+        function append_char(char, where) {
+            current_word = [current_word.slice(0, where), char, current_word.slice(where)].join('');
+            current_word_len += 1
+        }
+
+
+        function is_repetition(word) {
+            let word_len = word.length
+            return word.substring(0, word_len / 2) === word.substring(word_len / 2, word_len);
+        }
+
+        function find_repetition(word) {
+            // trade offer:
+            // I receive: current_word
+            // you receive: where repetition
+
+            let current_word_len = word.length;
+            for (let i = 0; i < current_word_len; i++) {
+                for (let j = i + 2; j < current_word_len + 1; j += 2) {
+                    if (is_repetition(word.substring(i, j))) {
+                        return [i, j]
+                    }
+                }
+            }
+            // no repetition
+            return [-1, -1]
+        }
+
+        function random_position() {
+            // move for easy difficulty
+            // trade offer:
+            // I receive: current_word_len
+            // you receive: random position [0, current_word_len]
+            return Math.floor(Math.random() * (current_word_len));
+        }
+
+        function hard_position() {
+            // move for hard difficulty
+            return 0
+        }
+
+        function find_position() {
+            if (difficulty === 'easy') {
+                return random_position()
+            } else {
+                return hard_position()
+            }
+        }
+
+        function return_to_menu() {
             window.location = 'index.html';
+
         }
     </script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="gamestyle.css">
 </head>
-<body onload="start()">
+<body onload="start();">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">THUE ONLINE</a>
@@ -35,15 +161,18 @@ function return_to_menu() {
             <li class="nav-item">
                 <a class="nav-link" href="index.html">Powrót</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="window.location.reload();">Graj od nowa</a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     Akcje
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="#">Tu coś będzie</a>
+                    <a class="dropdown-item" href="#">Tu też</a>
+                    <a class="dropdown-item" href="#">Tu może również...</a>
                 </div>
             </li>
         </ul>
@@ -51,8 +180,9 @@ function return_to_menu() {
 </nav>
 
 <div class="table">
-    <p id="text">COŚ</p>
+    <p id="text">__</p>
 </div>
+<!--
 <div class="buttons">
     <div>
         <button id="button1" type="button" class="btn btn-secondary btn-lg" onclick="append(this);">A</button>
@@ -62,6 +192,18 @@ function return_to_menu() {
     </div>
     <div>
         <button id="button3" type="button" class="btn btn-secondary btn-lg" onclick="append(this);">C</button>
+    </div>
+</div>
+-->
+<div class="buttons">
+    <div>
+        <button id="button1" type="button" class="btn btn-secondary btn-lg" onclick="moveLeft();"><</button>
+    </div>
+    <div>
+        <button id="button2" type="button" class="btn btn-secondary btn-lg" onclick="computer_move();">ENTER</button>
+    </div>
+    <div>
+        <button id="button3" type="button" class="btn btn-secondary btn-lg" onclick="moveRight();">></button>
     </div>
 </div>
 

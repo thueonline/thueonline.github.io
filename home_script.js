@@ -46,13 +46,13 @@ function display_settings(){
         }
      }
      function decrease_difficulty(){
-        if (document.getElementById("difficulty").innerText === 'trudny'){
-          document.getElementById("difficulty").innerText = 'łatwy';
+        if (document.getElementById("difficulty").innerText === 'easy'){
+          document.getElementById("difficulty").innerText = 'hard';
         }
      }
      function increase_difficulty(){
-        if (document.getElementById("difficulty").innerText === 'łatwy'){
-          document.getElementById("difficulty").innerText = 'trudny';
+        if (document.getElementById("difficulty").innerText === 'easy'){
+          document.getElementById("difficulty").innerText = 'hard';
         }
      }
 
@@ -61,5 +61,6 @@ function display_settings(){
         chosen_alphabet = document.getElementById("alphabet").innerText
         chosen_difficulty =document.getElementById("difficulty").innerText
         alert("Game with " + chosen_len + chosen_alphabet + chosen_difficulty)
-        window.location = 'game.html?l=' + chosen_len + "";
+        window.location = 'game.html?l=' + chosen_len + "&a=" + chosen_alphabet + "&d=" + chosen_difficulty;
+
      }
