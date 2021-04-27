@@ -1,3 +1,36 @@
 body {
     background-color: #222222;
 }
+
+.table {
+    width: 80%;
+    height: 200px;
+    background-color: #51585e;
+    font-size: 30px;
+    font-family: Caladea;
+    color: white;
+    margin: auto;
+    margin-top: 100px;
+    padding: 100px;
+}
+
+.buttons > div{
+    margin: auto;
+    display: inline-block;
+    display: -moz-inline-box;
+    *display: inline; /* For IE7 */
+    zoom: 1; /* Trigger hasLayout */
+
+    text-align: center;
+}
+
+.buttons {
+    margin: auto;
+    padding: 10px;
+    padding-left: 300px;
+    padding-right: 300px;
+    position: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
