@@ -24,7 +24,7 @@
         function start() {
             let current_word = '__'
             console.log(current_word);
-            current_word = setCharAt(current_word, 0, a[getRandomIntInclusive(0,2)]);
+            current_word = setCharAt(current_word, 0, a[getRandomIntInclusive(0, 2)]);
             document.getElementById('text').innerHTML = current_word;
             return
         }
@@ -77,16 +77,35 @@
             var word = $("#text");
             current_word = word.text();
             index = current_word.search('_');
-            current_word = setCharAt(current_word, index, a[getRandomIntInclusive(0,2)]);
+            if (index >= current_word.length) {
+                char_before = current_word[index - 1];
+                char_after = -1
+            } else if (index == 0) {
+                char_after = current_word[index + 1];
+                char_before = -1
+            } else {
+                char_before = current_word[index - 1];
+                char_after = current_word[index + 1];
+            }
+
+            let available_letters = a;
+            available_letters = available_letters.replace(char_after, '');
+            available_letters = available_letters.replace(char_before, '');
+
+            current_word = setCharAt(current_word, index, available_letters[getRandomIntInclusive(0, available_letters.length - 1)]);
             document.getElementById('text').innerHTML = current_word;
             result = find_repetition(current_word);
             console.log(result);
             if (String(result) != String([-1, -1])) {
-                setTimeout(() => {  alert("Wygrana!"); }, 100);
+                setTimeout(() => {
+                    alert("Wygrana!");
+                }, 100);
             }
 
-            if (current_word.length == 15){
-                setTimeout(() => {  alert("Przegrana :("); }, 100);
+            if (current_word.length == 15) {
+                setTimeout(() => {
+                    alert("Przegrana :(");
+                }, 100);
                 alert('Wygrał komputer')
             }
 
