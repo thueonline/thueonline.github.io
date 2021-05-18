@@ -91,7 +91,8 @@
             let available_letters = a;
             available_letters = available_letters.replace(char_after, '');
             available_letters = available_letters.replace(char_before, '');
-
+            console.log('checking letters');
+            available_letters = check_letters(available_letters, current_word, index);
 
             current_word = setCharAt(current_word, index, available_letters[getRandomIntInclusive(0, available_letters.length - 1)]);
             document.getElementById('text').innerHTML = current_word;
@@ -112,6 +113,25 @@
 
             document.getElementById('text').innerHTML = current_word + '_';
 
+        }
+
+        function check_letters(letters, current_word, index) {
+            // Checks if from provided letters there is some that cause no repetition
+            let letters_that_cause_no_rep = '';
+            for (var i = 0; i < letters.length; i++){
+
+                letter = letters[i];
+                try_word = setCharAt(current_word, index, letter);
+
+                if (String(find_repetition(try_word)) == String([-1, -1])){
+                    letters_that_cause_no_rep = letters_that_cause_no_rep + letter;
+                    console.log('letters and word');
+                    console.log(letters_that_cause_no_rep);
+                    console.log(try_word);
+                }
+            };
+            if (letters_that_cause_no_rep.length === 0 ) letters_that_cause_no_rep = letters; //if none found, give up
+            return letters_that_cause_no_rep
         }
 
         function append_char(char, where) {
