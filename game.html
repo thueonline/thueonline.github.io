@@ -92,6 +92,7 @@
             available_letters = available_letters.replace(char_after, '');
             available_letters = available_letters.replace(char_before, '');
 
+
             current_word = setCharAt(current_word, index, available_letters[getRandomIntInclusive(0, available_letters.length - 1)]);
             document.getElementById('text').innerHTML = current_word;
             result = find_repetition(current_word);

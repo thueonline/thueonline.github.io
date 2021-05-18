@@ -1,11 +1,19 @@
 body {
+	background-image: url("ryba.png");
     background-color: #222222;
+	height: 500px;
+    background-position: right;
+	font-family: "Georgia", serif;
+	font-variant: small-caps;
+	letter-spacing: 2px;
+	word-spacing: 2px;
 }
 
 .table {
     width: 80%;
     height: 200px;
     background-color: #51585e;
+	opacity: 0.9;
     font-size: 30px;
     font-family: Caladea;
     color: white;
