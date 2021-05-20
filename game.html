@@ -80,32 +80,25 @@
             repetition_level = -1
 
             for (let i = 0; i <= current_word.length; i++){
+                let tmp_word = '';
                 tmp_word = current_word.splice(i, 0, '_')
-                console.log(tmp_word)
                 characters = get_characters(tmp_word, tmp_word.search('_'));
                 char_before = characters[0];
                 char_after  = characters[1];
 
-                let available_letters = a;
-                available_letters = available_letters.replace(char_after, '');
-                available_letters = available_letters.replace(char_before, '');
+                var puttable_letters = a;
+                puttable_letters = puttable_letters.replace(char_after, '');
+                puttable_letters = puttable_letters.replace(char_before, '');
 
-                available_letters = check_letters(available_letters, tmp_word, tmp_word.search('_'));
-                console.log('Available letters: ' + available_letters)
+                puttable_letters = check_letters(puttable_letters, tmp_word, tmp_word.search('_'));
 
-                for (let k = 0; k < available_letters.length; k++){
-                    letter = available_letters[k];
-                    console.log(letter)
+                for (let k = 0; k < puttable_letters.length; k++){
+                    letter = puttable_letters[k];
+                    let word = '';
                     word = tmp_word.splice(tmp_word.search('_'),1, letter);
-                    //console.log(word + '   ' + String(find_repetition(word)))
-                    if (String(find_repetition(word)) != String([-1, -1])){
-                        console.log('found repetition at depth: ' + String(max_depth) + ' with word: ' + word)
-                        return max_depth;
+                     if (String(find_repetition(word)) != String([-1, -1])){
+                         return max_depth;
                     } else {
-
-
-                        //console.log('sending word: ' + word + '  ' + max_depth)
-
                         repetition_level = Math.max(repetition_level, rate_letters(word, max_depth -1))
                     }
                 }
@@ -130,11 +123,24 @@
         }
 
         function indexOfSmallest(a) {
-         var lowest = 0;
-         for (var i = 1; i < a.length; i++) {
-          if (a[i] < a[lowest]) lowest = i;
-         }
-         return lowest;
+             var lowest = 0;
+             for (var i = 1; i < a.length; i++) {
+              if (a[i] < a[lowest]) lowest = i;
+             }
+             return lowest;
+        }
+
+        function findMinimumIndexes(array) {
+            var min = Math.min.apply(Math, array);
+            var indexes = [];
+
+            array.forEach(function(item, idx, arr) {
+                if (item === min) {
+                    indexes.push(idx);
+                }
+            });
+
+            return indexes;
         }
 
         function computer_move() {
@@ -157,11 +163,13 @@
                 for (let i = 0; i < available_letters.length; i++){
                     letter = available_letters[i];
                     temp_word = setCharAt(current_word, index, letter)
-                    scores.push(rate_letters(temp_word, 2));
-                    console.log('scores: ' + scores)
-                }
+                    scores.push(rate_letters(temp_word, 3));
 
-                available_letters = available_letters[indexOfSmallest(scores)]
+                }
+                console.log('scores: ' + scores);
+                let indices = findMinimumIndexes(scores);
+                available_letters = available_letters[indices[getRandomIntInclusive(0, indices.length-1)]];
+
             }
 
             current_word = setCharAt(current_word, index, available_letters[getRandomIntInclusive(0, available_letters.length - 1)]);
