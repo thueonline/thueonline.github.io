@@ -19,11 +19,10 @@
         l = parseInt(parameters[0].substr(2));
         a = parameters[1].substr(2);
         d = parameters[2].substr(2);
-        console.log(a);
+
 
         function start() {
             let current_word = '__'
-            console.log(current_word);
             current_word = setCharAt(current_word, 0, a[getRandomIntInclusive(0, 2)]);
             document.getElementById('text').innerHTML = current_word;
             return
@@ -45,14 +44,12 @@
         function moveLeft() {
             var word = $("#text");
             current_word = word.text();
-            console.log(current_word);
             index = current_word.search('_');
-            console.log(index);
+
             if (index > 0) {
                 tmp = current_word[index - 1];
                 current_word = setCharAt(current_word, index - 1, '_');
                 current_word = setCharAt(current_word, index, tmp);
-                console.log(current_word);
                 document.getElementById('text').innerHTML = current_word;
             }
         }
@@ -60,44 +57,117 @@
         function moveRight() {
             var word = $("#text");
             current_word = word.text();
-            console.log(current_word);
             index = current_word.search('_');
-            console.log(index);
+
             if (index < current_word.length - 1) {
                 tmp = current_word[index + 1];
                 current_word = setCharAt(current_word, index + 1, '_');
                 current_word = setCharAt(current_word, index, tmp);
-                console.log(current_word);
                 document.getElementById('text').innerHTML = current_word;
             }
         }
 
+        String.prototype.splice = function(idx, rem, str) {
+            return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
+        };
 
-        function computer_move() {
-            var word = $("#text");
-            current_word = word.text();
-            index = current_word.search('_');
-            if (index >= current_word.length) {
+
+        function rate_letters(current_word, max_depth){
+            if (max_depth == 0){
+                return 0;
+
+            }
+            repetition_level = -1
+
+            for (let i = 0; i <= current_word.length; i++){
+                tmp_word = current_word.splice(i, 0, '_')
+                console.log(tmp_word)
+                characters = get_characters(tmp_word, tmp_word.search('_'));
+                char_before = characters[0];
+                char_after  = characters[1];
+
+                let available_letters = a;
+                available_letters = available_letters.replace(char_after, '');
+                available_letters = available_letters.replace(char_before, '');
+
+                available_letters = check_letters(available_letters, tmp_word, tmp_word.search('_'));
+                console.log('Available letters: ' + available_letters)
+
+                for (let k = 0; k < available_letters.length; k++){
+                    letter = available_letters[k];
+                    console.log(letter)
+                    word = tmp_word.splice(tmp_word.search('_'),1, letter);
+                    //console.log(word + '   ' + String(find_repetition(word)))
+                    if (String(find_repetition(word)) != String([-1, -1])){
+                        console.log('found repetition at depth: ' + String(max_depth) + ' with word: ' + word)
+                        return max_depth;
+                    } else {
+
+
+                        //console.log('sending word: ' + word + '  ' + max_depth)
+
+                        repetition_level = Math.max(repetition_level, rate_letters(word, max_depth -1))
+                    }
+                }
+
+            }
+            return repetition_level;
+        }
+
+        function get_characters(current_word, index) {
+            if (index == current_word.length-1) {
                 char_before = current_word[index - 1];
-                char_after = -1
+                char_after = 'Z';
             } else if (index == 0) {
                 char_after = current_word[index + 1];
-                char_before = -1
+                char_before = 'Z';
             } else {
                 char_before = current_word[index - 1];
                 char_after = current_word[index + 1];
             }
 
+            return [char_before, char_after];
+        }
+
+        function indexOfSmallest(a) {
+         var lowest = 0;
+         for (var i = 1; i < a.length; i++) {
+          if (a[i] < a[lowest]) lowest = i;
+         }
+         return lowest;
+        }
+
+        function computer_move() {
+            var word = $("#text");
+            current_word = word.text();
+            index = current_word.search('_');
+
+            characters = get_characters(current_word, index);
+            char_before = characters[0];
+            char_after  = characters[1];
+
             let available_letters = a;
             available_letters = available_letters.replace(char_after, '');
             available_letters = available_letters.replace(char_before, '');
-            console.log('checking letters');
-            available_letters = check_letters(available_letters, current_word, index);
+
+            if (d == 'hard'){
+                available_letters = check_letters(available_letters, current_word, index);
+
+                let scores = [];
+                for (let i = 0; i < available_letters.length; i++){
+                    letter = available_letters[i];
+                    temp_word = setCharAt(current_word, index, letter)
+                    scores.push(rate_letters(temp_word, 2));
+                    console.log('scores: ' + scores)
+                }
+
+                available_letters = available_letters[indexOfSmallest(scores)]
+            }
 
             current_word = setCharAt(current_word, index, available_letters[getRandomIntInclusive(0, available_letters.length - 1)]);
             document.getElementById('text').innerHTML = current_word;
             result = find_repetition(current_word);
-            console.log(result);
+
             if (String(result) != String([-1, -1])) {
                 setTimeout(() => {
                     alert("Wygrana!");
@@ -125,9 +195,6 @@
 
                 if (String(find_repetition(try_word)) == String([-1, -1])){
                     letters_that_cause_no_rep = letters_that_cause_no_rep + letter;
-                    console.log('letters and word');
-                    console.log(letters_that_cause_no_rep);
-                    console.log(try_word);
                 }
             };
             if (letters_that_cause_no_rep.length === 0 ) letters_that_cause_no_rep = letters; //if none found, give up
