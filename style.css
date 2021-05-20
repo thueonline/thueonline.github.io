@@ -78,37 +78,56 @@ body {
 }
 #instrukcja{
   position: fixed;
-  bottom: 20%;
-  left: 20%;
-  width: 60%;
-  height: 60%;
-  background-color: #73AD21;
+  width: 400px;
+  height: 515px;
+  background-color: #222222;
+  color: #cccccc;
   opacity: 0;
   transition: opacity 300ms;
   display: none;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  line-height: 30px;
 }
 #autorzy{
   position: fixed;
-  bottom: 20%;
-  left: 20%;
-  width: 60%;
-  height: 60%;
-  background-color: #888888;
+  width: 200px;
+  height: 100px;
+  background-color: #222222;
+  color: #cccccc;
   opacity: 0;
   transition: opacity 300ms;
   display: none;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  line-height: 30px;
+  line-height: 2;
 }
 #confirm1{
-  float: right;
-  padding: 30px;
-  border: 2px solid black;
-  background-color: aliceblue;
+  cursor: pointer;
+  float: center;
+  background-color: #191919;
+  color: #cccccc;
+  height: 25px;
+  text-align: center;
+  font-size: 15px;
 }
+
 #confirm2{
-  float: right;
-  padding: 30px;
-  border: 2px solid black;
-  background-color: aliceblue;
+  float: center;
+  background-color: #191919;
+  color: #cccccc;
+  height: 25px;
+  font-size: 15px;
+  cursor: pointer;
 }
 .kafelek3 {
 	position: center;
