@@ -1,8 +1,8 @@
 body {
-	background-image: url("ryba.png");
+	background-image: url("oczy.png");
     background-color: #222222;
-	height: 500px;
-    background-position: right;
+	height: 1000px;
+    background-position: center;
 	font-family: "Georgia", serif;
 	font-variant: small-caps;
 	letter-spacing: 2px;
@@ -28,17 +28,27 @@ body {
     display: -moz-inline-box;
     *display: inline; /* For IE7 */
     zoom: 1; /* Trigger hasLayout */
-
     text-align: center;
 }
 
 .buttons {
     margin: auto;
-    padding: 10px;
+    padding: 15px;
     padding-left: 300px;
     padding-right: 300px;
     position: center;
     justify-content: center;
     align-items: center;
     display: flex;
+}
+
+a{
+    text-decoration: none;
+	color: #222222;
+	padding-left: 10px;
+}
+
+a:hover {
+	text-decoration:none;
+	color: #51585e
 }
